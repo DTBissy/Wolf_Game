@@ -4,7 +4,7 @@ import math
 import random
 
 class SpriteSheet:
-    # This is the SpriteSheet fetcher think of it as the
+    # This is the SpriteSheet call think of it as the
     # Sprite getter and converter. It does the general
     #Pygame surface which we need so that we can blit(draw) our sprites(imgs) on the screen
     # And the color key makes the edge of the sprite transparant
@@ -32,7 +32,7 @@ class Player(pygame.sprite.Sprite):
         self.x = x * TILE_SIZE
         self.y = y * TILE_SIZE
 # self.width and height are manually set here because the sprites needed them to be
-# Reset to their width size and height in pixels
+# Reset to their width size and height in pixels because of their unique image size
         self.width = 30
         self.height = 50
 
@@ -53,7 +53,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
 # These are the spritesheet imgs. There literlly just in a list and we get the different pictures
-# By pixel spot in the picture and loop through it to animate movement
+# By top left pixel spot in the spritesheet picture and loop through it to animate movement
         self.down_animations = [self.game.character_spritesheet.get_sprite(57, 144, self.width, self.height),
                            self.game.character_spritesheet.get_sprite(10, 144, self.width, self.height),
                            self.game.character_spritesheet.get_sprite(105, 144, self.width, self.height)]

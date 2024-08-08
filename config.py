@@ -20,7 +20,7 @@ WHITE = (255, 255, 255)
 # We will have 20 columns for the wall to surround the outer perimiter
 TILEMAP = [
     'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',
-    'B............BBB.................B...B',
+    'B................................B...B',
     'B.....P.........................E....B',
     'B..................BB................B',
     'B..................BB..........ffff..B',

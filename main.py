@@ -120,7 +120,7 @@ class Game:
         intro = True
 
         #Creating title in title rect and naming the game
-        title = self.font.render('Awesome Game', True, BLACK)
+        title = self.font.render('Down With The House', True, BLACK)
         title_rect = title.get_rect(x=10, y=10)
 
         play_button = Button(10, 50, 100, 50, WHITE, BLACK, 'Play', 64)
