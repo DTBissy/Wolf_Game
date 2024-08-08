@@ -245,7 +245,8 @@ class enemy(pygame.sprite.Sprite):
                 if self.animation_loop >= 3:
                     self.animation_loop = 1
 class Explosion(pygame.sprite.Sprite):
-    def
+    def Explom(bomb=""):
+      pass
 
 
 class Block(pygame.sprite.Sprite):
