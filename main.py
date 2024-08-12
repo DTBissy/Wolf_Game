@@ -25,9 +25,13 @@ class Game:
         self.attack_spritesheet = SpriteSheet('sprites/player/attack.png')
         self.intro_background = pygame.image.load('sprites/introbackground.png')
         self.go_background = pygame.image.load('sprites/gameover.png')
+        self.brick_house_image = pygame.image.load('houses/brickhouse.png').convert_alpha()
+        self.straw_house_image = pygame.image.load('houses/strawhouse.png').convert_alpha()
+        self.stick_house_image = pygame.image.load('houses/stickhouse.png').convert_alpha()
+
 
         # Load bomb and explosion sprites
-        self.bomb_image = pygame.image.load('sprites/pigs/bomb.png')
+        self.bomb_images = [pygame.image.load(f'sprites/pigs/bomb{num}.png') for num in range(1, 4)]
         self.explosion_images = [pygame.image.load(f'sprites/pigs/exp{num}.png') for num in range(1, 6)]
 
 
@@ -64,6 +68,12 @@ class Game:
                     bomb = Bomb(self, j * TILE_SIZE, i * TILE_SIZE)
                     self.bombs.add(bomb)
                     self.all_sprites.add(bomb) # add bomb to all_sprites group for general updates
+                if column == "H":
+                    Brickhouse(self, j, i)
+                if column == "S":
+                    Strawhouse(self, j, i)
+                if column == "W":
+                    Stickhouse(self, j, i)
 
 
     def events(self):

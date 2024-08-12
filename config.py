@@ -14,29 +14,29 @@ RED =(255, 0, 0)
 BLACK =(0, 0, 0)
 BLUE =(0, 0, 255)
 WHITE = (255, 255, 255)
-#Because the Height is 480 pixels and the TILESZE is 32
+# Because the Height is 480 pixels and the TILESZE is 32
 # We will divide the two to determine how many rows well have
 # Since our Width is 640 and the TILESIZE is 32
 # We will have 20 columns for the wall to surround the outer perimiter
 TILEMAP = [
     'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',
     'B................................B...B',
-    'B.....P.........................E....B',
+    'B.....P........................E....B',
     'B..................BB................B',
     'B..................BB..........ffff..B',
     'BBBBBBBBBBBBBBBBBBBBB..........ffff..B',
     'B..................BB..........ffff..B',
-    'B..................BB................B',
+    'B..W...............BB.......S........B',
     'B....................................B',
-    'B..E.................................B',
+    'B....................................B',
+    'B.................BB................B',
+    'B.................BB................B',
     'B..................BB................B',
-    'B..................BB................B',
-    'B....E.............BB................B',
-    'B..................BB................B',
+    'B........E........BB................B',
     'B..................BB...........X....B', # Bomb placement here
     'BBBBBBBBBBBBBBBBB..BBBBBBBBBBBBBBBBBBB',
     'B..............BB...BB................B',
-    'B...............B..BB................B',
+    'B..H............B..BB................B',
     'B...............B..BB................B',
     'B..................BB................B',
     'B..................BB................B',

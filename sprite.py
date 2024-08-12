@@ -389,6 +389,81 @@ class Hay(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+    
+class Brickhouse(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        super().__init__()
+        self.game = game
+        self.layer = BLOCK_LAYER
+        self.groups = self.game.all_sprites, self.game.blocks
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        # Set position and dimensions
+        self.x = x * TILE_SIZE
+        self.y = y * TILE_SIZE
+
+        self.scaled_width = 200
+        self.scaled_height = 200
+
+        # Get house's image from sprite sheet
+        self.image = self.game.brick_house_image
+        self.image = pygame.transform.scale(self.image, (self.scaled_width, self.scaled_height))
+        
+        # Set rectangle area for collision detection and positioning
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+class Strawhouse(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        super().__init__()
+        self.game = game
+        self.layer = BLOCK_LAYER
+        self.groups = self.game.all_sprites, self.game.blocks
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        # Set position and dimensions
+        self.x = x * TILE_SIZE
+        self.y = y * TILE_SIZE
+
+
+        self.scaled_width = 200
+        self.scaled_height = 200
+
+        # Get house's image from sprite sheet
+        self.image = self.game.straw_house_image
+        self.image = pygame.transform.scale(self.image, (self.scaled_width, self.scaled_height))
+        
+        # Set rectangle area for collision detection and positioning
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+class Stickhouse(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        super().__init__()
+        self.game = game
+        self.layer = BLOCK_LAYER
+        self.groups = self.game.all_sprites, self.game.blocks
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        # Set position and dimensions
+        self.x = x * TILE_SIZE
+        self.y = y * TILE_SIZE
+
+
+        self.scaled_width = 200
+        self.scaled_height = 200
+
+        # Get house's image from sprite sheet
+        self.image = self.game.stick_house_image
+        self.image = pygame.transform.scale(self.image, (self.scaled_width, self.scaled_height))
+        
+        # Set rectangle area for collision detection and positioning
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
 
 class Button:
     # Defines Button, which can be used in game's intro or other screens
