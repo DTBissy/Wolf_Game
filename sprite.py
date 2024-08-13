@@ -148,33 +148,18 @@ class Player(pygame.sprite.Sprite):
         self.y_change = 0
         # This is what movement looks like lol
     def movement(self):
-        # This function handles player movement based on keyboard input
         keys = pygame.key.get_pressed()
-        # Left is negative on a x or horizontal axis therefor we subtract the postion of our character
-        # on a x-xis to again mimic movement
-        # Player_speed is in config.py its just the rate at which our player increments or decrements
         if keys[pygame.K_LEFT]:
-            for sprite in self.game.all_sprites:
-                sprite.rect.x += PLAYER_SPEED
-            self.x_change -= PLAYER_SPEED
+            self.x_change = -PLAYER_SPEED
             self.facing = 'left'
-          # Same for right but that increases on a x-axis so we add to the postion of our character or x.change
         if keys[pygame.K_RIGHT]:
-            for sprite in self.game.all_sprites:
-                sprite.rect.x -= PLAYER_SPEED
-            self.x_change += PLAYER_SPEED
+            self.x_change = PLAYER_SPEED
             self.facing = 'right'
-            #because pygame starts its y axis at 0 we subbtract from it to go up anytime
         if keys[pygame.K_UP]:
-            for sprite in self.game.all_sprites:
-                sprite.rect.y += PLAYER_SPEED
-            self.y_change -= PLAYER_SPEED
+            self.y_change = -PLAYER_SPEED
             self.facing = 'up'
         if keys[pygame.K_DOWN]:
-          # and since we subtract to go up on the y-axis its only logical we add to go down.
-            for sprite in self.game.all_sprites:
-                sprite.rect.y -= PLAYER_SPEED
-            self.y_change += PLAYER_SPEED
+            self.y_change = PLAYER_SPEED
             self.facing = 'down'
 
     def collide_enemy(self):
@@ -199,26 +184,18 @@ class Player(pygame.sprite.Sprite):
         if direction == 'x':
             hits = pygame.sprite.spritecollide(self, self.game.blocks, False)
             if hits:
-                if self.x_change > 0:
-                    for sprite in self.game.all_sprites:
-                        sprite.rect.x += PLAYER_SPEED
-                    self.rect.x = hits[0].rect.left - self.rect.width
-                if self.x_change < 0:
-                    for sprite in self.game.all_sprites:
-                        sprite.rect.x -= PLAYER_SPEED
-                    self.rect.x = hits[0].rect.right
+                if self.x_change > 0:  # Moving right; hit something
+                    self.rect.right = hits[0].rect.left
+                if self.x_change < 0:  # Moving left; hit something
+                    self.rect.left = hits[0].rect.right
 
         if direction == 'y':
             hits = pygame.sprite.spritecollide(self, self.game.blocks, False)
             if hits:
-                if self.y_change > 0:
-                    for sprite in self.game.all_sprites:
-                        sprite.rect.y += PLAYER_SPEED
-                    self.rect.y = hits[0].rect.top - self.rect.height
-                if self.y_change < 0:
-                    for sprite in self.game.all_sprites:
-                        sprite.rect.y -= PLAYER_SPEED
-                    self.rect.y = hits[0].rect.bottom
+                if self.y_change > 0:  # Moving down; hit something
+                    self.rect.bottom = hits[0].rect.top
+                if self.y_change < 0:  # Moving up; hit something
+                    self.rect.top = hits[0].rect.bottom
 
 class enemy(pygame.sprite.Sprite):
     # Represents pigs, which move autonomously

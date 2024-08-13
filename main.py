@@ -105,10 +105,11 @@ class Game:
 
     def draw(self):
         # Render all elements on screen
-        self.screen.fill(BLACK) # Clear screen by filling it with black color
+        self.screen.fill(GREEN) # Clear screen by filling it with black color
         self.all_sprites.draw(self.screen) # Draw all sprites onto screen
         self.player.health_bar.draw(self.screen)
         self.player.health_bar.update(self.player.hp)
+        self.screen.blit(self.player.image, self.player.rect)
 
 
         # Draw bombs if they are in a separate group
