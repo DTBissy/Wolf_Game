@@ -433,29 +433,29 @@ class Attack(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
         # Yup it gets animations and all so that it simulates movement.
-        self.right_animations = [self.game.attack_spritesheet.get_sprite(0, 64, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(32, 64, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(64, 64, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(96, 64, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(128, 64, self.width, self.height)]
+        self.right_animations = [self.game.attack_spritesheet.get_sprite(5, 5, self.width + TILE_SIZE * 0.5, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(54, 5, self.width + TILE_SIZE * 0.5, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(101, 5, self.width + TILE_SIZE * 0.5, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(147, 5, self.width + TILE_SIZE * 0.5, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(195, 5, self.width + TILE_SIZE * 0.5, self.height * 2)]
 
-        self.down_animations = [self.game.attack_spritesheet.get_sprite(0, 32, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(32, 32, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(64, 32, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(96, 32, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(128, 32, self.width, self.height)]
+        self.down_animations = [self.game.attack_spritesheet.get_sprite(5, 5, self.width, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(54, 5, self.width, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(101, 5, self.width, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(147, 5, self.width, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(195, 5, self.width, self.height * 2)]
 
-        self.left_animations = [self.game.attack_spritesheet.get_sprite(0, 96, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(32, 96, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(64, 96, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(96, 96, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(128, 96, self.width, self.height)]
+        self.left_animations = [self.game.attack_spritesheet.get_sprite(5, 5, self.width, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(54, 5, self.width, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(101, 5, self.width, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(147, 5, self.width, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(195, 5, self.width, self.height * 2)]
 
-        self.up_animations = [self.game.attack_spritesheet.get_sprite(0, 0, self.width, self.height),
-                         self.game.attack_spritesheet.get_sprite(32, 0, self.width, self.height),
-                         self.game.attack_spritesheet.get_sprite(64, 0, self.width, self.height),
-                         self.game.attack_spritesheet.get_sprite(96, 0, self.width, self.height),
-                         self.game.attack_spritesheet.get_sprite(128, 0, self.width, self.height)]
+        self.up_animations = [self.game.attack_spritesheet.get_sprite(5, 5, self.width, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(54, 5, self.width, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(101, 5, self.width, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(147, 5, self.width, self.height * 2),
+                           self.game.attack_spritesheet.get_sprite(195, 5, self.width, self.height * 2)]
 
     def update(self):
         self.animate()

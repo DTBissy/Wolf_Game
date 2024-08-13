@@ -19,7 +19,7 @@ class Game:
         self.pig_red_spritesheet = SpriteSheet('sprites/pigs/pendleton_pig_red.png')
         self.pig_brown_spritesheet = SpriteSheet('sprites/pigs/pendleton_pig_brown.png')
         self.pig_rich_spritesheet = SpriteSheet('sprites/pigs/pendleton_pig_Rich.png')
-        self.attack_spritesheet = SpriteSheet('sprites/player/attack.png')
+        self.attack_spritesheet = SpriteSheet('sprites/player/tornado.png')
         self.intro_background = pygame.image.load('sprites/introbackground.png')
         self.go_background = pygame.image.load('sprites/gameover.png')
 
