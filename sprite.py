@@ -3,6 +3,7 @@ from config import *
 import math
 import random
 from health_sys import *
+from explosion import *
 import sys
 
 
@@ -239,6 +240,9 @@ class enemy(pygame.sprite.Sprite):
 
         self.max_hp = max_hp
         self.hp = max_hp
+
+        self.last_bomb_time = pygame.time.get_ticks()
+        self.bomb_cooldown = 1000
 # Same as with player animations we manually go in and find the top left pixel location for each image
 # and put them in a list so we can loop through it and simualate moving
 
@@ -253,6 +257,18 @@ class enemy(pygame.sprite.Sprite):
                             self.game.pig_rich_spritesheet.get_sprite(6, 96, self.width, self.height),
                             self.game.pig_rich_spritesheet.get_sprite(38, 98, self.width, self.height)]
 
+    def spawn_bomb(self):
+        now = pygame.time.get_ticks()
+        if now - self.last_bomb_time > self.bomb_cooldown:
+            bomb = Bomb(self, self.rect.x, self.rect.y)
+            self.game.bombs.add(bomb)
+            self.last_bomb_time = now
+
+
+
+
+
+
     def update(self):
         # Update the enemy's movement and animation on each game loop iteration
         self.movement()
@@ -263,6 +279,7 @@ class enemy(pygame.sprite.Sprite):
         # Reset movement changes to prepare for the next update
         self.x_change = 0
         self.y_change = 0
+
 
     # Enemys move automatically But we decide what they do based of the direction
     # From the random gen up there how fast and whether they go left or right

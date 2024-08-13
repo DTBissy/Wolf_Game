@@ -67,10 +67,10 @@ class Game:
                     Ground2(self, j, i,)
                 if column == "g":
                     Hay(self, j, i)
-                if column == "X":
-                    bomb = Bomb(self, j * TILE_SIZE, i * TILE_SIZE)
-                    self.bombs.add(bomb)
-                    self.all_sprites.add(bomb) # add bomb to all_sprites group for general updates
+                # if column == "X":
+                #     bomb = Bomb(self, j * TILE_SIZE, i * TILE_SIZE)
+                #     self.bombs.add(bomb)
+                #     self.all_sprites.add(bomb) # add bomb to all_sprites group for general updates
                 if column == "H":
                     Brickhouse(self, j, i)
                 if column == "S":
@@ -102,6 +102,11 @@ class Game:
         # Update all sprites in the game
         self.all_sprites.update()
         self.bombs.update()
+        self.enemies.update()
+
+        for enemy in self.enemies:
+            enemy.spawn_bomb()
+            self.bombs.update()
 
     def draw(self):
         # Render all elements on screen
