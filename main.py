@@ -2,13 +2,16 @@ import pygame
 from sprite import *
 from config import *
 from explosion import Bomb
+from health_sys import HealthBar
 import sys
+
 
 class Game:
     def __init__(self):
         pygame.init()
         # Set up display window with given width & height
         self.screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+        pygame.display.set_caption("Down With The House")
         # Creates clock object to manage frames per second
         self.clock = pygame.time.Clock()
         # self.font = pygame.font.Font('Arial', 32)
@@ -104,6 +107,9 @@ class Game:
         # Render all elements on screen
         self.screen.fill(BLACK) # Clear screen by filling it with black color
         self.all_sprites.draw(self.screen) # Draw all sprites onto screen
+        self.player.health_bar.draw(self.screen)
+        self.player.health_bar.update(self.player.hp)
+
 
         # Draw bombs if they are in a separate group
         self.bombs.draw(self.screen)
@@ -154,7 +160,7 @@ class Game:
         intro = True # Control variable for the intro screen
 
         # Render the game title
-        title = self.font.render('Down With The House', True, BLACK) 
+        title = self.font.render('Down With The House', True, BLACK)
         title_rect = title.get_rect(x=10, y=10) # Position title to top left
 
         # Play Button

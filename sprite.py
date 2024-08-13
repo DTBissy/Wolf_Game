@@ -2,6 +2,7 @@ import pygame
 from config import *
 import math
 import random
+from health_sys import *
 
 class SpriteSheet:
     # This is the SpriteSheet call. Think of it as the
@@ -24,9 +25,9 @@ class SpriteSheet:
 class Player(pygame.sprite.Sprite):
     # This class represents the player character
     # Handles all player functionality.
-    def __init__(self, game, x, y):
+    def __init__(self, game, x, y, max_hp=100):
         # Ensures Player object is properly initialzed as a sprite, inheriting essential functionality.
-        super().__init__() 
+        super().__init__()
         # Store a reference to the game instance and set the layer for rendering.
         self.game = game
         self.layer = PLAYER_LAYER
@@ -46,6 +47,14 @@ class Player(pygame.sprite.Sprite):
         self.facing = 'down'
         # Starting index for our animation loop
         self.animation_lopp = 1
+        self.max_hp = max_hp
+        self.hp = max_hp
+        test = self.hp - 50
+        self.health_bar = HealthBar(900, 15, 250, 40, 100)
+
+
+
+
 
         # Load initial sprite for the player from the sprite sheet
         # 9 and 16 being the top left pixels that the sprite sheet starts at in the
@@ -73,6 +82,7 @@ class Player(pygame.sprite.Sprite):
         self.right_animations = [self.game.character_spritesheet.get_sprite(13, 80, self.width, self.height),
                             self.game.character_spritesheet.get_sprite(62, 80, self.width, self.height),
                             self.game.character_spritesheet.get_sprite(106, 80, self.width, self.height)]
+
     def animate(self):
     # This function handles switching the player's sprite to create an animation effect.
         if self.facing == 'down':
@@ -122,6 +132,8 @@ class Player(pygame.sprite.Sprite):
         self.animate()
         self.collide_enemy()
 
+
+
         # Update player's position based on movement.
         self.rect.x += self.x_change
         self.collide_blocks('x')
@@ -165,11 +177,13 @@ class Player(pygame.sprite.Sprite):
     def collide_enemy(self):
         # Without a health system implemented anytime you make contact with a enemy sprite
         # it Kills the player
-        hits = pygame.sprite.spritecollide(self, self.game.enemies, True)
+        hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
 
         if hits:
-            self.kill()
-            self.game.playing = False
+            self.hp -= 10
+            self.health_bar.update(self.hp)
+            print(self.hp)
+
 
     def collide_blocks(self, direction):
         # This function handles collision between the player and blocks (e.g., walls)
@@ -200,7 +214,7 @@ class Player(pygame.sprite.Sprite):
 
 class enemy(pygame.sprite.Sprite):
     # Represents pigs, which move autonomously
-    def __init__(self, game, x, y):
+    def __init__(self, game, x, y, max_hp = 100):
         super().__init__()
         self.game = game
         # Piggies exist on the enemy layer also in config
@@ -237,6 +251,9 @@ class enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+
+        self.max_hp = max_hp
+        self.hp = max_hp
 # Same as with player animations we manually go in and find the top left pixel location for each image
 # and put them in a list so we can loop through it and simualate moving
 
@@ -298,10 +315,7 @@ class enemy(pygame.sprite.Sprite):
                 self.animation_loop += 0.1
                 if self.animation_loop >= 3:
                     self.animation_loop = 1
-# class Explosion(pygame.sprite.Sprite):
-    # Placeholder for handling explosions
-    # def Explom(bomb=""):
-      # pass
+
 
 
 class Block(pygame.sprite.Sprite):
@@ -389,7 +403,7 @@ class Hay(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
-    
+
 class Brickhouse(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
         super().__init__()
@@ -408,7 +422,7 @@ class Brickhouse(pygame.sprite.Sprite):
         # Get house's image from sprite sheet
         self.image = self.game.brick_house_image
         self.image = pygame.transform.scale(self.image, (self.scaled_width, self.scaled_height))
-        
+
         # Set rectangle area for collision detection and positioning
         self.rect = self.image.get_rect()
         self.rect.x = self.x
@@ -433,7 +447,7 @@ class Strawhouse(pygame.sprite.Sprite):
         # Get house's image from sprite sheet
         self.image = self.game.straw_house_image
         self.image = pygame.transform.scale(self.image, (self.scaled_width, self.scaled_height))
-        
+
         # Set rectangle area for collision detection and positioning
         self.rect = self.image.get_rect()
         self.rect.x = self.x
@@ -458,7 +472,7 @@ class Stickhouse(pygame.sprite.Sprite):
         # Get house's image from sprite sheet
         self.image = self.game.stick_house_image
         self.image = pygame.transform.scale(self.image, (self.scaled_width, self.scaled_height))
-        
+
         # Set rectangle area for collision detection and positioning
         self.rect = self.image.get_rect()
         self.rect.x = self.x
