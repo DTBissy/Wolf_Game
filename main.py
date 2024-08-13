@@ -56,15 +56,15 @@ class Game:
         # Create game world based on TILEMAP layout
         for i, row in enumerate(TILEMAP):
             for j, column in enumerate(row):
-                Ground(self, j, i)
+                Ground(self, j, i, g = 1)
                 if column == "B":
-                    Block(self, j, i)
+                    Block(self, j, i, g =1)
                 if column == "E":
                     enemy(self, j, i)
                 if column == "P":
                     self.player = Player(self, j, i)
                 if column == "f":
-                    Ground2(self, j, i)
+                    Ground(self, j, i, g = 2)
                 if column == "g":
                     Hay(self, j, i)
                 if column == "X":

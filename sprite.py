@@ -84,7 +84,7 @@ class Player(pygame.sprite.Sprite):
         self.right_animations = [self.game.character_spritesheet.get_sprite(13, 80, self.width, self.height),
                             self.game.character_spritesheet.get_sprite(62, 80, self.width, self.height),
                             self.game.character_spritesheet.get_sprite(106, 80, self.width, self.height)]
-
+# A function to assign the directional list to a direction pressed on keyboard input
     def animate(self):
     # This function handles switching the player's sprite to create an animation effect.
         if self.facing == 'down':
@@ -333,7 +333,7 @@ class enemy(pygame.sprite.Sprite):
 
 
 class Block(pygame.sprite.Sprite):
-    # Block layer: Represents immovable block in the game, like rocks
+    # THis is the block layer so like the rocks we see and cant walk through.
     def __init__(self, game, x, y):
         super().__init__()
         self.game = game
@@ -348,16 +348,16 @@ class Block(pygame.sprite.Sprite):
         self.y = y * TILE_SIZE
         self.width = TILE_SIZE
         self.height = TILE_SIZE
-        # Get block's image from the terrain sprite sheet
+
         self.image = self.game.terrain_spritesheet.get_sprite(960, 448, self.width, self.height)
-        # Set the rectangle area for collision detection and positioning
+
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
 
 
 class Ground(pygame.sprite.Sprite):
-    # Grass ('j'): We loop for on create_tile_map()
+    #This is Grass and its the 'j' we loop for on create_tile_map()
     def __init__(self, game, x, y):
         super().__init__()
         self.game = game
@@ -369,15 +369,15 @@ class Ground(pygame.sprite.Sprite):
         self.y = y * TILE_SIZE
         self.width = TILE_SIZE
         self.height = TILE_SIZE
-        # Get grass ground tile's image from terrain sprite sheet.
+#Grassss
         self.image = self.game.terrain_spritesheet.get_sprite(67, 352, self.width, self.height)
-        # Set rectangle area for collision detection and positioning
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
 
 class Ground2(pygame.sprite.Sprite):
-    # ALT Grass
+    #This is ALT Grass so when we call whatever this is set to on the
+    #Create Tile map this will show up
     def __init__(self, game, x, y):
         super().__init__()
         self.game = game
@@ -395,7 +395,6 @@ class Ground2(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
-
 class Hay(pygame.sprite.Sprite):
     # Hay ('G'): We loop for on create_tile_map()
     def __init__(self, game, x, y):
