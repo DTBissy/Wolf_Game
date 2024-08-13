@@ -3,6 +3,7 @@ from config import *
 import math
 import random
 from health_sys import *
+import sys
 
 class SpriteSheet:
     # This is the SpriteSheet call. Think of it as the
@@ -49,8 +50,9 @@ class Player(pygame.sprite.Sprite):
         self.animation_lopp = 1
         self.max_hp = max_hp
         self.hp = max_hp
-        test = self.hp - 50
         self.health_bar = HealthBar(900, 15, 250, 40, 100)
+        self.damage_cooldown = 0
+        self.damage_cooldown_max = 60
 
 
 
@@ -179,9 +181,14 @@ class Player(pygame.sprite.Sprite):
         # it Kills the player
         hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
 
-        if hits:
-            self.hp -= 10
+        if hits and self.damage_cooldown <= 0:
+            self.hp -= 50
             self.health_bar.update(self.hp)
+            if self.hp <= 0:
+                self.game.playing = False
+            self.damage_cooldown = self.damage_cooldown_max
+        elif self.damage_cooldown > 0:
+            self.damage_cooldown -= 1
             print(self.hp)
 
 
@@ -295,6 +302,13 @@ class enemy(pygame.sprite.Sprite):
             if self.movement_loop >= self.max_travel: # Change direction if max travel is reached
                 self.facing = 'left'
 
+    def take_damage(self, damage):
+        # Reduce the enemy's health by the specified damage amount
+        self.hp -= damage
+        print(self.hp)
+        # If the enemy's health reaches zero or below, remove it from the game
+        if self.hp <= 0:
+            self.kill()
     def animate(self):
     # Pig's animation loop through the list we set
     # Update enemy's sprite based on its facing direction & movement
@@ -416,8 +430,8 @@ class Brickhouse(pygame.sprite.Sprite):
         self.x = x * TILE_SIZE
         self.y = y * TILE_SIZE
 
-        self.scaled_width = 200
-        self.scaled_height = 200
+        self.scaled_width = 150
+        self.scaled_height = 150
 
         # Get house's image from sprite sheet
         self.image = self.game.brick_house_image
@@ -441,8 +455,8 @@ class Strawhouse(pygame.sprite.Sprite):
         self.y = y * TILE_SIZE
 
 
-        self.scaled_width = 200
-        self.scaled_height = 200
+        self.scaled_width = 150
+        self.scaled_height = 150
 
         # Get house's image from sprite sheet
         self.image = self.game.straw_house_image
@@ -466,8 +480,8 @@ class Stickhouse(pygame.sprite.Sprite):
         self.y = y * TILE_SIZE
 
 
-        self.scaled_width = 200
-        self.scaled_height = 200
+        self.scaled_width = 150
+        self.scaled_height = 150
 
         # Get house's image from sprite sheet
         self.image = self.game.stick_house_image
@@ -547,6 +561,10 @@ class Attack(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+
+        self.damaging = False
+        self.damage_timer = 0
+        self.damage_interval = 60
         # Define animations for the attack in different directions
         # Each direction has multiple frames for creating the animation effect.
         # Yup it gets animations and all so that it simulates movement.
@@ -579,10 +597,15 @@ class Attack(pygame.sprite.Sprite):
         self.animate()
         self.collide()
 
+
     def collide(self):
         # Check for collisions between the attack & enemies
         # If a collision occurs, remove the enemy form the game
-        hits = pygame.sprite.spritecollide(self, self.game.enemies, True)
+        hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
+
+        if hits:
+            hits[0].take_damage(4)
+            print("\n hit")
 
     def animate(self):
         # Update attack's image based in the direction the player is facing
