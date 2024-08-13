@@ -96,7 +96,7 @@ class Game:
                     if self.player.facing == "left":
                         Attack(self, self.player.rect.x - TILE_SIZE, self.player.rect.y, 'left')
                     if self.player.facing == "right":
-                        Attack(self, self.player.rect.x + TILE_SIZE, self.player.rect.y - TILE_SIZE, 'right')
+                        Attack(self, self.player.rect.x + TILE_SIZE, self.player.rect.y, 'right')
 
     def update(self):
         # Update all sprites in the game
@@ -131,7 +131,7 @@ class Game:
         text = self.font.render("Game Over", True, WHITE) # Render "Game Over" text
         text_rect = text.get_rect(center=(WIN_WIDTH/2, WIN_HEIGHT/2)) # Center the text on the screen
 
-        restart_button = Button(10, WIN_HEIGHT - 60, 120, 50, WHITE, BLACK, 'Restart', 32) # Creates restart button
+        restart_button = Button(WIN_WIDTH/2 - 100, WIN_HEIGHT/2 + 60, 250, 50, WHITE, BLACK, 'Restart', 32) # Creates restart button
 
         for sprite in self.all_sprites:
             sprite.kill() # Remove all sprites from the game
@@ -164,7 +164,8 @@ class Game:
         title_rect = title.get_rect(x=10, y=10) # Position title to top left
 
         # Play Button
-        play_button = Button(10, 50, 100, 50, WHITE, BLACK, 'Play', 64)
+        play_button = Button((WIN_WIDTH/2) - 125, (WIN_HEIGHT/2 - 50), 150, 75, WHITE, BLACK, 'Play', 64)
+        how_to_button = Button((WIN_WIDTH/2) - 125, (WIN_HEIGHT/2 + 75), 420, 75, WHITE, BLACK, 'How to Play', 64)
 
         # loop to check if you quit while in the title screen
         while intro:
@@ -181,17 +182,53 @@ class Game:
             #checks if the play button is pressed and if it is pressed sets the
             #intro variable to false
             if play_button.is_pressed(mouse_pos, mouse_pressed):
-                intro = False # Start Game if play button is pressed
+                intro = False  #Start Game if play button is pressed
+            elif how_to_button.is_pressed(mouse_pos, mouse_pressed):
+                self.how_to_screen()
 
             # Draws everything like normal and updates the screen
             # at 60 fps
             self.screen.blit(self.intro_background, (0,0))
             self.screen.blit(title, title_rect)
             self.screen.blit(play_button.image, play_button.rect)
+            self.screen.blit(how_to_button.image, how_to_button.rect)
             self.clock.tick(FPS) # Cap the frame rate
             pygame.display.update() # Update the display
             # When this screen is broken out of it moves on to
             # the next line in the interpreter.
+
+    def how_to_screen(self):
+        """Displays the How to Play screen with instructions."""
+        how_to_play = True
+        instructions = [
+            "Use arrow keys to move the player.", " ",
+            "Press SPACE to attack.", " ",
+            "Avoid enemies and obstacles.", " ",
+            "Collect items to score points."
+        ]
+
+        while how_to_play:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    how_to_play = False
+                    self.running = False
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    how_to_play = False  # Pressing ESC exits how to play screen
+
+            self.screen.blit(self.intro_background, (0, 0))
+            y_offset = 100
+            for line in instructions:
+                text = self.font.render(line, True, WHITE)
+                text_rect = text.get_rect(center=(WIN_WIDTH / 2, y_offset))
+                self.screen.blit(text, text_rect)
+                y_offset += 50
+
+            back_text = self.font.render("Press ESC to return", True, WHITE)
+            back_rect = back_text.get_rect(center=(WIN_WIDTH / 2, y_offset + 50))
+            self.screen.blit(back_text, back_rect)
+
+            self.clock.tick(FPS)
+            pygame.display.update()
 
 g = Game() # Create Game object
 g.intro_screen() # Show the intro screen
