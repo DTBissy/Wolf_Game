@@ -150,16 +150,16 @@ class Player(pygame.sprite.Sprite):
         # This is what movement looks like lol
     def movement(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             self.x_change = -PLAYER_SPEED
             self.facing = 'left'
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             self.x_change = PLAYER_SPEED
             self.facing = 'right'
-        if keys[pygame.K_UP]:
+        if keys[pygame.K_UP] or keys[pygame.K_w]:
             self.y_change = -PLAYER_SPEED
             self.facing = 'up'
-        if keys[pygame.K_DOWN]:
+        if keys[pygame.K_DOWN] or keys[pygame.K_s]:
             self.y_change = PLAYER_SPEED
             self.facing = 'down'
 
