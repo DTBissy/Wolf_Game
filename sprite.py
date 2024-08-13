@@ -549,12 +549,12 @@ class Attack(pygame.sprite.Sprite):
         # Initial position and size of the attack
         self.x = x
         self.y = y
-        self.width = TILE_SIZE
-        self.height = TILE_SIZE
+        self.width = 40
+        self.height = 56
         # Animation frame index for cycling through attack frames.
         self.animation_loop = 0
         # Load initial image for the attack from the attack spritesheet
-        self.image = self.game.attack_spritesheet.get_sprite(0, 0, self.width,
+        self.image = self.game.attack_spritesheet.get_sprite(5, 4, self.width,
             self.height)
 
         # Create a rectangle representing the attack's boundaries and set its position
@@ -568,30 +568,38 @@ class Attack(pygame.sprite.Sprite):
         # Define animations for the attack in different directions
         # Each direction has multiple frames for creating the animation effect.
         # Yup it gets animations and all so that it simulates movement.
-        self.right_animations = [self.game.attack_spritesheet.get_sprite(0, 64, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(32, 64, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(64, 64, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(96, 64, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(128, 64, self.width, self.height)]
+        self.right_animations = [self.game.attack_spritesheet.get_sprite(5, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(53, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(101, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(148, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(197, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(245, 5, self.width, self.height)]
 
-        self.down_animations = [self.game.attack_spritesheet.get_sprite(0, 32, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(32, 32, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(64, 32, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(96, 32, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(128, 32, self.width, self.height)]
+        self.down_animations = [self.game.attack_spritesheet.get_sprite(5, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(53, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(101, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(148, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(197, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(245, 5, self.width, self.height)]
 
-        self.left_animations = [self.game.attack_spritesheet.get_sprite(0, 96, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(32, 96, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(64, 96, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(96, 96, self.width, self.height),
-                           self.game.attack_spritesheet.get_sprite(128, 96, self.width, self.height)]
+        self.left_animations = [self.game.attack_spritesheet.get_sprite(5, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(53, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(101, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(148, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(197, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(245, 5, self.width, self.height)]
 
-        self.up_animations = [self.game.attack_spritesheet.get_sprite(0, 0, self.width, self.height),
-                         self.game.attack_spritesheet.get_sprite(32, 0, self.width, self.height),
-                         self.game.attack_spritesheet.get_sprite(64, 0, self.width, self.height),
-                         self.game.attack_spritesheet.get_sprite(96, 0, self.width, self.height),
-                         self.game.attack_spritesheet.get_sprite(128, 0, self.width, self.height)]
+        self.up_animations = [self.game.attack_spritesheet.get_sprite(5, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(53, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(101, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(148, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(197, 5, self.width, self.height),
+                           self.game.attack_spritesheet.get_sprite(245, 5, self.width, self.height)]
 
+        self.rotated_right_animations = [pygame.transform.rotate(sprite, -90) for sprite in self.right_animations]
+        self.rotated_down_animations = [pygame.transform.rotate(sprite, 180) for sprite in self.down_animations]
+        self.rotated_left_animations = [pygame.transform.rotate(sprite, 90) for sprite in self.left_animations]
+        self.rotated_up_animations = [pygame.transform.rotate(sprite, 0) for sprite in self.up_animations]
     def update(self):
         # Update the attack's state, including animation and collision detection
         self.animate()
@@ -614,25 +622,25 @@ class Attack(pygame.sprite.Sprite):
 
         if direction == "up":
             # Update image to next frame in the upward animation sequence
-            self.image = self.up_animations[math.floor(self.animation_loop)]
-            self.animation_loop += 0.5 # Increment the animation frame index
+            self.image = self.rotated_up_animations[math.floor(self.animation_loop)]
+            self.animation_loop += 0.1 # Increment the animation frame index
             if self.animation_loop >= 5: # Check if the animation has completed
                 self.kill() # Remove the attack from the game
 
         if direction == "down":
-            self.image = self.down_animations[math.floor(self.animation_loop)]
-            self.animation_loop += 0.5
+            self.image = self.rotated_down_animations[math.floor(self.animation_loop)]
+            self.animation_loop += 0.1
             if self.animation_loop >= 5:
                 self.kill()
 
         if direction == "left":
-            self.image = self.left_animations[math.floor(self.animation_loop)]
-            self.animation_loop += 0.5
+            self.image = self.rotated_left_animations[math.floor(self.animation_loop)]
+            self.animation_loop += 0.1
             if self.animation_loop >= 5:
                 self.kill()
 
         if direction == "right":
-            self.image = self.right_animations[math.floor(self.animation_loop)]
-            self.animation_loop += 0.5
+            self.image = self.rotated_right_animations[math.floor(self.animation_loop)]
+            self.animation_loop += 0.1
             if self.animation_loop >= 5:
                 self.kill()
