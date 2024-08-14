@@ -1,5 +1,3 @@
-# Wolf_Game
-This is our repo for our wolf pygame
 # <p align="center">Hack Sprint</p>
 
 ## :bookmark: Table of Contents
@@ -7,7 +5,7 @@ This is our repo for our wolf pygame
         <summary>
         CLICK TO ENLARGE
         </summary>
-        :wolf: <a href="#wolf game">Wolf Game</a>
+        :wolf: <a href="#down with the house">Down With The House</a>
         <br>
         :bomb: <a href="#description">Description</a>
         <br>
@@ -18,8 +16,8 @@ This is our repo for our wolf pygame
         :sparkles: <a href="#authors">Authors</a>
 </details>
 
-## :wolf: <span id="wolf game">Wolf Game</span>
-Wolf Game is a thrilling 2D RPG that reimagines the classic tale of The Three Little Pigs. In this twisted version, the pigs are not the innocent characters you remember. Instead, they are ruthless antagonists who have used bombs to destroy the wolf's family. Now, it's time for the wolf to seek revenge.
+## :wolf: <span id="down with the house">Down With The House</span>
+Down With The House is a thrilling 2D RPG that reimagines the classic tale of The Three Little Pigs. In this twisted version, the pigs are not the innocent characters you remember. Instead, they are ruthless antagonists who have used bombs to destroy the wolf's family. Now, it's time for the wolf to seek revenge.
 ## :bomb: <span id="description">Description</span>
 In Wolf Game, you play as the wolf, seeking vengeance against the evil pigs. The game features:
 
