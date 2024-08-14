@@ -4,42 +4,78 @@ import math
 
 class Bomb(pygame.sprite.Sprite):
     # Bomb ('X'): Loop on create_tile_map
-    def __init__(self, game, x, y):
+    def __init__(self, game, x, y, facing='right'):
         super().__init__()
         self.game = game
-        self.layer = PLAYER_LAYER
-        self.x, self.y = x, y
-        self.width = 40
-        self.height = 30
-        # Load the image representing the bomb and set its initial position
-        self.images = []
-        for num in range(1, 4):
-            img = pygame.image.load(f'sprites/pigs/bomb{num}.png').convert_alpha()
-            img = pygame.transform.scale(img, (40, 30))
-            self.images.append(img)
-        for num in range(1,6):
-            img = pygame.image.load(f'sprites/pigs/exp{num}.png').convert_alpha()
-            img = pygame.transform.scale(img, (40, 30))
-            self.images.append(img)
-        self.index = 0
-        self.image = self.images[self.index]
+        self.layer = ENEMYLAYER  # Placed in the enemy layer
+        self.groups = self.game.all_sprites, self.game.bombs
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        self.initial_x = x
+        self.x = x
+        self.y = y
+        self.width = TILE_SIZE
+        self.height = TILE_SIZE
+
+        self.animation_loop = 0
+        self.facing = facing
+
+        # Initialize the bomb's image
+        self.image = self.game.bomb_images[0]
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = self.x, self.y
-        self.animation_speed = 20 # Adjust speed as necessary
-        self.current_frame = 0
-        self.active = True # Flag to indicate if the bomb is active
-        self.triggered = False # Flag to indicate is bomb has triggered an explosion
-        self.timer = 1000
-        self.start_ticks = pygame.time.get_ticks()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+        # Movement variables
+        self.x_speed = 5 if self.facing == 'right' else -5  # Horizontal speed
+        self.y_speed = -7  # Initial upward speed
+        self.gravity = 0.5  # Gravity to bring the bomb down
+
+        # Timing for the bomb explosion
+        self.explosion_time = 275  # milliseconds before detonation
+        self.spawn_time = pygame.time.get_ticks()
+        self.stopped = False
 
     def update(self):
-        # Animate bomb by cycling through images
-        self.current_frame += 1
-        if self.current_frame >= self.animation_speed:
-            self.current_frame = 0
-            self.index += 1
-            if self.index >= len(self.images):
-                self.index = 0
-            self.image = self.images[self.index]
-            if self.index == 120:
-                self.kill()
+        if not self.stopped:
+            # Handle movement
+            self.rect.x += self.x_speed
+            self.rect.y += self.y_speed
+            self.y_speed += self.gravity  # Apply gravity to simulate the arc
+
+            # Check if the bomb has returned to the initial x position
+            if self.rect.x <= self.initial_x and self.rect.x >= self.initial_x:
+                self.x_speed = 0 # Stop horizontal movement
+                self.y_speed = 0 # Stop vertical movement
+                self.stopped = True  # Mark bomb as stopped
+
+            # Check if it's time to detonate the bomb
+            if pygame.time.get_ticks() - self.spawn_time > self.explosion_time:
+                self.detonate()
+            else:
+                self.animate()
+        else:
+            self.detonate()
+
+    def animate(self):
+        # Animate the bomb itself before detonation
+        if self.animation_loop < len(self.game.bomb_images):
+            self.image = self.game.bomb_images[math.floor(self.animation_loop)]
+            self.animation_loop += 0.1
+        else:
+            self.animation_loop = 0  # Loop the animation
+
+    def detonate(self):
+        # Switch to the explosion animation
+        if self.animation_loop < len(self.game.explosion_images):
+            self.image = self.game.explosion_images[math.floor(self.animation_loop)]
+            self.animation_loop += 0.2
+        else:
+            self.kill()  # Remove the bomb after the explosion animation
+
+        # Handle the explosion logic, targeting the player
+        if pygame.sprite.collide_rect(self, self.game.player):
+            self.game.player.take_damage(50)
+# Apply damage to the player if within the blast radius
+
+

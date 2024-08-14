@@ -198,6 +198,14 @@ class Player(pygame.sprite.Sprite):
                 if self.y_change < 0:  # Moving up; hit something
                     self.rect.top = hits[0].rect.bottom
 
+    def take_damage(self, damage):
+        self.hp -= damage
+        print(f"Player HP: {self.hp}")
+        if self.hp <= 0:
+            self.game.playing = False
+
+
+
 class enemy(pygame.sprite.Sprite):
     # Represents pigs, which move autonomously
     def __init__(self, game, x, y, max_hp = 100):
@@ -227,7 +235,7 @@ class enemy(pygame.sprite.Sprite):
         self.facing = random.choice(["left", "right"])
         self.animation_loop = 1 # Start animation loop
         self.movement_loop = 0 # Track movement distance
-        self.max_travel = random.randint(7, 30) # Random max distance to travel before changing direction
+        self.max_travel = random.randint(20, 30) # Random max distance to travel before changing direction
 
         # Initial image taken from the sprite sheet
         self.image = self.game.pig_rich_spritesheet.get_sprite(0, 0, self.width, self.height)
@@ -260,12 +268,9 @@ class enemy(pygame.sprite.Sprite):
     def spawn_bomb(self):
         now = pygame.time.get_ticks()
         if now - self.last_bomb_time > self.bomb_cooldown:
-            bomb = Bomb(self, self.rect.x, self.rect.y)
+            bomb = Bomb(self.game, self.rect.x, self.rect.y)
             self.game.bombs.add(bomb)
             self.last_bomb_time = now
-
-
-
 
 
 
