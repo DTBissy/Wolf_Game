@@ -479,7 +479,7 @@ class Strawhouse(pygame.sprite.Sprite):
         self.hp = self.max_hp
 
 class Stickhouse(pygame.sprite.Sprite):
-    def __init__(self, game, x, y, max_hp = 5):
+    def __init__(self, game, x, y, max_hp = 500):
         super().__init__()
         self.game = game
         self.layer = BLOCK_LAYER
