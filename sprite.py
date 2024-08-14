@@ -334,7 +334,7 @@ class enemy(pygame.sprite.Sprite):
 
 class Block(pygame.sprite.Sprite):
     # THis is the block layer so like the rocks we see and cant walk through.
-    def __init__(self, game, x, y):
+    def __init__(self, game, x, y, max_hp = 10000):
         super().__init__()
         self.game = game
         self._layer = BLOCK_LAYER # Define rendering layer for the block
@@ -354,6 +354,16 @@ class Block(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+        self.max_hp = max_hp
+        self.hp = max_hp
+
+    def take_damage(self, damage):
+        # Reduce the enemy's health by the specified damage amount
+        self.hp -= damage
+        print(self.hp)
+        # If the enemy's health reaches zero or below, remove it from the game
+        if self.hp <= 0:
+            self.kill()
 
 
 class Ground(pygame.sprite.Sprite):
@@ -465,9 +475,11 @@ class Strawhouse(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+        self.max_hp = 5
+        self.hp = self.max_hp
 
 class Stickhouse(pygame.sprite.Sprite):
-    def __init__(self, game, x, y):
+    def __init__(self, game, x, y, max_hp = 5):
         super().__init__()
         self.game = game
         self.layer = BLOCK_LAYER
@@ -490,6 +502,16 @@ class Stickhouse(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+        self.max_hp = max_hp
+        self.hp = max_hp
+
+    def take_damage(self, damage):
+        # Reduce the enemy's health by the specified damage amount
+        self.hp -= damage
+        print(self.hp)
+        # If the enemy's health reaches zero or below, remove it from the game
+        if self.hp <= 0:
+            self.kill()
 
 
 class Button:
@@ -608,6 +630,7 @@ class Attack(pygame.sprite.Sprite):
         # Update the attack's state, including animation and collision detection
         self.animate()
         self.collide()
+        self.collide_block()
 
         if self.direction == "up":
             self.rect.y -= self.speed
@@ -624,6 +647,12 @@ class Attack(pygame.sprite.Sprite):
         # If a collision occurs, remove the enemy form the game
         hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
 
+        if hits:
+            hits[0].take_damage(4)
+            print("\n hit")
+
+    def collide_block(self):
+        hits = pygame.sprite.spritecollide(self, self.game.blocks, False)
         if hits:
             hits[0].take_damage(4)
             print("\n hit")
