@@ -11,7 +11,7 @@ class Bomb(pygame.sprite.Sprite):
         self.groups = self.game.all_sprites, self.game.bombs
         pygame.sprite.Sprite.__init__(self, self.groups)
 
-        self.initial_x = x
+        self.initial_y = y
         self.x = x
         self.y = y
         self.width = TILE_SIZE
@@ -32,7 +32,7 @@ class Bomb(pygame.sprite.Sprite):
         self.gravity = 0.5  # Gravity to bring the bomb down
 
         # Timing for the bomb explosion
-        self.explosion_time = 275  # milliseconds before detonation
+        self.explosion_time = 2000  # milliseconds before detonation
         self.spawn_time = pygame.time.get_ticks()
         self.stopped = False
 
@@ -44,7 +44,7 @@ class Bomb(pygame.sprite.Sprite):
             self.y_speed += self.gravity  # Apply gravity to simulate the arc
 
             # Check if the bomb has returned to the initial x position
-            if self.rect.x <= self.initial_x and self.rect.x >= self.initial_x:
+            if self.rect.y >= self.initial_y:
                 self.x_speed = 0 # Stop horizontal movement
                 self.y_speed = 0 # Stop vertical movement
                 self.stopped = True  # Mark bomb as stopped

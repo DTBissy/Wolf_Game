@@ -235,7 +235,7 @@ class enemy(pygame.sprite.Sprite):
         self.facing = random.choice(["left", "right"])
         self.animation_loop = 1 # Start animation loop
         self.movement_loop = 0 # Track movement distance
-        self.max_travel = random.randint(20, 30) # Random max distance to travel before changing direction
+        self.max_travel = random.randint(20, 50) # Random max distance to travel before changing direction
 
         # Initial image taken from the sprite sheet
         self.image = self.game.pig_rich_spritesheet.get_sprite(0, 0, self.width, self.height)
