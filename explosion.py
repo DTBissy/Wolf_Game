@@ -61,7 +61,7 @@ class Bomb(pygame.sprite.Sprite):
         # Animate the bomb itself before detonation
         if self.animation_loop < len(self.game.bomb_images):
             self.image = self.game.bomb_images[math.floor(self.animation_loop)]
-            self.animation_loop += 0.1
+            self.animation_loop += 0.05
         else:
             self.animation_loop = 0  # Loop the animation
 
